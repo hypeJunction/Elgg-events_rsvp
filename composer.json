@@ -1,0 +1,26 @@
+{
+	"name": "hypejunction/events_rsvp",
+	"version": "0.0.0",
+	"type": "elgg-plugin",
+	"description": "Event RSVPs",
+	"homepage": "http://hypejunction.com",
+	"keywords": [
+		"elgg", "plugin", "events", "rsvp"
+	],
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Ismayil Khayredinov",
+			"email": "info@hypejunction.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5",
+		"composer/installers": "~1.0",
+		"hypejunction/elgg_tokeninput": "~4.0",
+		"hypejunction/forms_api": "~1.0",
+		"arckinteractive/events_api": "~2.0",
+		"arckinteractive/events_ui": "~2.0"
+	}
+}
+
