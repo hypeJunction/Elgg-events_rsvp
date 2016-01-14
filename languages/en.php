@@ -17,6 +17,7 @@ return [
 	'events:rsvp:invites:allowed:attendees' => 'Attendees',
 	'events:rsvp:invites:allowed:public' => 'Anyone who can access the event',
 	'events:rsvp:invite' => 'Invite',
+	'events:invite:users:select' => 'Select users',
 	'events:invite:friends:select' => 'Select friends',
 	'events:invite:message' => 'Add optional message',
 
@@ -38,4 +39,18 @@ return [
 	'events:rsvp:invite:result:invited' => '%s of %s invitations were successfully sent',
 	'events:rsvp:invite:result:skipped' => '%s of %s invitations were skipped, because users have already been invited',
 	'events:rsvp:invite:result:error' => '%s of %s invitations could not be sent due to errors',
+
+	'events:rsvp:list:no_results' => 'There are no users to display',
+	'events:rsvp:list:attending' => 'Attending',
+	'events:rsvp:list:not_attending' => 'Not Attending',
+	'events:rsvp:list:invited' => 'Invited',
+
+	'events:rsvp:remove' => 'Remove',
+	'events:rsvp:remove:confirm' => 'Are you sure you want to remove user\'s RSVP and potentially revoke their access to the event?',
+	'events:rsvp:remove:success' => 'User has been removed from the event',
+
+	'events:rsvp:uninvite' => 'Revoke',
+	'events:rsvp:uninvite:confirm' => 'Are you sure you want to revoke the invitation and potentially prevent access to the event?',
+	'events:rsvp:uninvite:success' => 'Invitation has been revoked successfully',
+	
 ];

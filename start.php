@@ -19,16 +19,22 @@ elgg_register_event_handler('init', 'system', 'events_rsvp_init');
 function events_rsvp_init() {
 
 	elgg_register_action('events/rsvp', __DIR__ . '/actions/events/rsvp.php');
+	elgg_register_action('events/rsvp_remove', __DIR__ . '/actions/events/rsvp_remove.php');
 	elgg_register_action('events/invite', __DIR__ . '/actions/events/invite.php');
+	elgg_register_action('events/uninvite', __DIR__ . '/actions/events/uninvite.php');
 
 	elgg_register_plugin_hook_handler('profile_buttons', 'object:event', 'events_rsvp_prepare_profile_buttons');
+	elgg_register_plugin_hook_handler('register', 'menu:event:user', 'events_rsvp_setup_event_user_menu');
 
 	elgg_extend_view('events/add/extend', 'events/add/rsvp');
+	elgg_extend_view('object/event', 'object/event/rsvps');
 
 	elgg_register_event_handler('create', 'object', 'events_rsvp_save_options');
 	elgg_register_event_handler('update', 'object', 'events_rsvp_save_options');
 
 	elgg_register_plugin_hook_handler('route', 'calendar', 'events_rsvp_invite_page_handler');
+
+	elgg_extend_view('elgg.css', 'events/rsvp.css');
 }
 
 /**
@@ -237,10 +243,72 @@ function events_rsvp_invite_page_handler($hook, $type, $return, $params) {
 	$identifier = elgg_extract('identifier', $return);
 	$segments = elgg_extract('segments', $return);
 
-	if ($identifier == 'calendar' && $segments[0] == 'events' && $segments[1] == 'invite') {
-		echo elgg_view_resource('events/invite', array(
-			'guid' => $segments[2],
-		));
-		return false;
+	if ($identifier == 'calendar' && $segments[0] == 'events') {
+		switch ($segments[1]) {
+			case 'invite' :
+				echo elgg_view_resource('events/invite', array(
+					'guid' => $segments[2],
+				));
+				return false;
+			case 'rsvps' :
+				echo elgg_view_resource('events/rsvps', array(
+					'guid' => $segments[2],
+					'tab' => $segments[3],
+				));
+				return false;
+		}
 	}
+}
+
+/**
+ * Setup event user menu
+ * 
+ * @param string         $hook   "register"
+ * @param string         $type   "menu:event:user"
+ * @param ElggMenuItem[] $return Menu
+ * @param array          $params Hook params
+ * @return array
+ */
+function events_rsvp_setup_event_user_menu($hook, $type, $return, $params) {
+
+	$event = elgg_extract('event', $params);
+	$user = elgg_extract('user', $params);
+
+	if (!$event instanceof Event || !$user instanceof ElggUser) {
+		return;
+	}
+
+	if (!$event->canEdit()) {
+		return;
+	}
+
+	if (events_rsvp_user_status($event, $user)) {
+		$return[] = ElggMenuItem::factory(array(
+					'name' => 'rsvp:remove',
+					'text' => elgg_echo('events:rsvp:remove'),
+					'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/rsvp_remove'), array(
+						'user_guid' => $user->guid,
+						'event_guid' => $event->guid,
+					)),
+					'confirm' => elgg_echo('events:rsvp:remove:confirm'),
+					'link_class' => 'elgg-button elgg-button-delete',
+					'item_class' => 'elgg-menu-item-delete',
+		));
+	}
+
+	if (check_entity_relationship($event->guid, 'invited', $user->guid)) {
+		$return[] = ElggMenuItem::factory(array(
+					'name' => 'rsvp:uninvite',
+					'text' => elgg_echo('events:rsvp:uninvite'),
+					'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/uninvite'), array(
+						'user_guid' => $user->guid,
+						'event_guid' => $event->guid,
+					)),
+					'confirm' => elgg_echo('events:rsvp:uninvite:confirm'),
+					'link_class' => 'elgg-button elgg-button-delete',
+					'item_class' => 'elgg-menu-item-delete',
+		));
+	}
+
+	return $return;
 }

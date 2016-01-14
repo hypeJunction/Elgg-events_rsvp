@@ -2,11 +2,19 @@
 
 $entity = elgg_extract('entity', $vars);
 
-echo elgg_view_input('tokeninput/friends', array(
-	'name' => 'invitee_guids',
-	'label' => elgg_echo('events:invite:friends:select'),
-	'multiple' => true,
-));
+if (elgg_is_admin_logged_in()) {
+	echo elgg_view_input('tokeninput/users', array(
+		'name' => 'invitee_guids',
+		'label' => elgg_echo('events:invite:users:select'),
+		'multiple' => true,
+	));
+} else {
+	echo elgg_view_input('tokeninput/friends', array(
+		'name' => 'invitee_guids',
+		'label' => elgg_echo('events:invite:friends:select'),
+		'multiple' => true,
+	));
+}
 
 echo elgg_view_input('plaintext', array(
 	'name' => 'message',
