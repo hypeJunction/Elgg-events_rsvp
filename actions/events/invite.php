@@ -40,6 +40,9 @@ foreach ($invitee_guids as $invitee_guid) {
 		$skipped++;
 	}
 
+	add_entity_relationship($entity->guid, 'invited', $invitee->guid);
+	add_entity_relationship($entity->guid, 'access_grant', $invitee->guid);
+	
 	$notification_params = array(
 		'inviter' => elgg_view('output/url', array(
 			'text' => $inviter->getDisplayName(),

@@ -32,7 +32,10 @@ foreach ($options as $option) {
 }
 
 add_entity_relationship($user->guid, $rsvp, $event->guid);
+remove_entity_relationship($event->guid, 'invited', $user->guid);
+
 system_message(elgg_echo('events:rsvp:success'));
+
 if (!empty($relationships)) {
 	$relationships_in = implode(',', $relationships);
 	$dbprefix = elgg_get_config('dbprefix');
