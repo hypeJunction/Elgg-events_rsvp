@@ -13,9 +13,9 @@ $rsvp_options[] = 'invited';
 $tabs = array();
 foreach ($rsvp_options as $option) {
 	$counter = elgg_get_entities_from_relationship([
-		'relationship' => $options,
+		'relationship' => $option,
 		'relationship_guid' => $entity->guid,
-		'inverse_relationship' => true,
+		'inverse_relationship' => false,
 		'count' => true,
 	]);
 	
