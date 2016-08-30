@@ -45,7 +45,9 @@ if ($hmac->matchesToken($mac) && $event instanceof Event && $invitee instanceof 
 	$calendar->addEvent($event);
 
 	$title = elgg_echo('events:rsvp:confirm:title');
-	$content = elgg_format_element('p', [], elgg_echo('events:rsvp:confirm', [
+	$content = elgg_format_element('p', [
+		'class' => 'elgg-no-results',
+	], elgg_echo('events:rsvp:confirm', [
 		'event' => elgg_view('output/url', array(
 			'text' => $event->getDisplayName(),
 			'href' => $event->getURL(),
