@@ -10,6 +10,10 @@ if (!$entity instanceof \Events\API\Event) {
 	return;
 }
 
+if (!$entity->allowed_rsvps || $entity->allowed_rsvps == 'noone') {
+	return;
+}
+
 echo elgg_view('components/tabs', array(
     'id' => "events-rsvps-$entity->guid",
     'tabs' => elgg_view('filters/events/rsvps', array(
