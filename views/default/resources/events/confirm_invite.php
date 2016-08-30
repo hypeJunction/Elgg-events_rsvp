@@ -19,7 +19,7 @@ $ia = elgg_set_ignore_access(true);
 $invitee = get_entity($invitee_guid);
 $event = get_entity($event_guid);
 
-if ($hmac->matchesToken($mac) && $event instanceof Event && $user instanceof ElggUser) {
+if ($hmac->matchesToken($mac) && $event instanceof Event && $invitee instanceof ElggUser) {
 
 	$options = events_rsvp_options();
 	$relationships = array();
@@ -30,25 +30,25 @@ if ($hmac->matchesToken($mac) && $event instanceof Event && $user instanceof Elg
 		$relationships[] = "'$option'";
 	}
 
-	add_entity_relationship($user->guid, 'attending', $event->guid);
-	remove_entity_relationship($event->guid, 'invited', $user->guid);
+	add_entity_relationship($invitee->guid, 'attending', $event->guid);
+	remove_entity_relationship($event->guid, 'invited', $invitee->guid);
 
 	if (!empty($relationships)) {
 		$relationships_in = implode(',', $relationships);
 		$dbprefix = elgg_get_config('dbprefix');
 		$query = "DELETE FROM {$dbprefix}entity_relationships
-		WHERE guid_one = {$user->guid} AND guid_two = {$event->guid} AND relationship IN ({$relationships_in})";
+		WHERE guid_one = {$invitee->guid} AND guid_two = {$event->guid} AND relationship IN ({$relationships_in})";
 		delete_data($query);
 	}
 
-	$calendar = Calendar::getPublicCalendar($user);
+	$calendar = Calendar::getPublicCalendar($invitee);
 	$calendar->addEvent($event);
 
 	$title = elgg_echo('events:rsvp:confirm:title');
 	$content = elgg_format_element('p', [], elgg_echo('events:rsvp:confirm', [
 		'event' => elgg_view('output/url', array(
-			'text' => $entity->getDisplayName(),
-			'href' => $entity->getURL(),
+			'text' => $event->getDisplayName(),
+			'href' => $event->getURL(),
 		)),
 	]));
 

@@ -53,7 +53,7 @@ foreach ($invitee_guids as $invitee_guid) {
 		't' => $time,
 	]);
 
-	$base_url = elgg_normalize_url('events/confirm_invite');
+	$base_url = elgg_normalize_url('calendar/events/confirm_invite');
 	$confirm_url = elgg_http_add_url_query_elements($base_url, [
 		'i' => $invitee->guid,
 		'e' => $entity->guid,
@@ -97,7 +97,6 @@ foreach ($invitee_guids as $invitee_guid) {
 		$error++;
 	}
 }
-
 
 $total = $error + $invited + $skipped;
 if ($invited) {

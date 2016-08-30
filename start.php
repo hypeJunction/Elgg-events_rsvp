@@ -321,6 +321,6 @@ function events_rsvp_setup_event_user_menu($hook, $type, $return, $params) {
  * @return array
  */
 function events_rsvp_public_pages($hook, $type, $return, $params) {
-	$return[] = "events/confirm_invite";
+	$return[] = "calendar/events/confirm_invite";
 	return $return;
 }
