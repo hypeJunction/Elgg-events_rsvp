@@ -10,7 +10,8 @@ if (!$entity instanceof \Events\API\Event) {
 	return;
 }
 
-if (!$entity->allowed_rsvps || $entity->allowed_rsvps == 'noone') {
+$allowed_rsvps = $entity->allowed_rsvps && $entity->allowed_rsvps !== 'noone';
+if (!$allowed_rsvps && !$entity->canEdit()) {
 	return;
 }
 

@@ -29,7 +29,7 @@ return [
 
 		%4$s
 		
-		Please RSVP at %5$s.
+		Please RSVP by clicking this link: %5$s.
 		',
 	'events:rsvp:invite:notify:message' => '
 		They have included the following message for you:
@@ -52,5 +52,9 @@ return [
 	'events:rsvp:uninvite' => 'Revoke',
 	'events:rsvp:uninvite:confirm' => 'Are you sure you want to revoke the invitation and potentially prevent access to the event?',
 	'events:rsvp:uninvite:success' => 'Invitation has been revoked successfully',
+
+	'events:rsvp:confirm:invalid' => 'The URL of the page you are trying to reach is invalid or has expired',
+	'events:rsvp:confirm:title' => 'Thank you',
+	'events:rsvp:confirm' => 'Your attendance at %s has been confirmed. You can change your RSVP status at any time by visiting the event page',
 	
 ];

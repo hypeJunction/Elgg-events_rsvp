@@ -24,6 +24,8 @@ $error = 0;
 $skipped = 0;
 $invited = 0;
 
+$allowed_rsvps = $entity->allowed_rsvps && $entity->allowed_rsvps !== 'noone';
+
 foreach ($invitee_guids as $invitee_guid) {
 	$invitee = get_entity($invitee_guid);
 	if (!$invitee) {
@@ -42,7 +44,23 @@ foreach ($invitee_guids as $invitee_guid) {
 
 	add_entity_relationship($entity->guid, 'invited', $invitee->guid);
 	add_entity_relationship($entity->guid, 'access_grant', $invitee->guid);
-	
+
+	$time = time();
+
+	$hmac = elgg_build_hmac([
+		'i' => $invitee->guid,
+		'e' => $entity->guid,
+		't' => $time,
+	]);
+
+	$base_url = elgg_normalize_url('events/confirm_invite');
+	$confirm_url = elgg_http_add_url_query_elements($base_url, [
+		'i' => $invitee->guid,
+		'e' => $entity->guid,
+		't' => $time,
+		'm' => $hmac->getToken(),
+	]);
+
 	$notification_params = array(
 		'inviter' => elgg_view('output/url', array(
 			'text' => $inviter->getDisplayName(),
@@ -56,11 +74,14 @@ foreach ($invitee_guids as $invitee_guid) {
 			'user' => $invitee,
 			'start' => $entity->start_timestamp,
 			'end' => $entity->end_timestamp,
-			'timezone' => $entity->timezone,
+			'timezone' => \Events\API\Util::getClientTimezone($invitee),
 		)),
 		'message' => ($message) ? elgg_echo('events:rsvp:invite:notify:message', array($message), $invitee->language) : '',
-		'url' => $entity->getURL(),
+		'url' => elgg_view('output/url', [
+			'href' => $confirm_url,
+		]),
 	);
+
 	$subject = elgg_echo('events:rsvp:invite:notify:subject', array($entity->getDisplayName()), $invitee->language);
 	$body = elgg_echo('events:rsvp:invite:notify:body', $notification_params, $invitee->language);
 

@@ -27,7 +27,8 @@ elgg_register_event_handler('init', 'system', function() {
 	elgg_register_event_handler('update', 'object', 'events_rsvp_save_options');
 
 	elgg_register_plugin_hook_handler('route', 'calendar', 'events_rsvp_invite_page_handler');
-
+	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'events_rsvp_public_pages');
+	
 	elgg_extend_view('elgg.css', 'events/rsvp.css');
 });
 
@@ -250,6 +251,9 @@ function events_rsvp_invite_page_handler($hook, $type, $return, $params) {
 					'tab' => $segments[3],
 				));
 				return false;
+			case 'confirm_invite' :
+				echo elgg_view_resource('events/confirm_invite');
+				return false;
 		}
 	}
 }
@@ -304,5 +308,19 @@ function events_rsvp_setup_event_user_menu($hook, $type, $return, $params) {
 		));
 	}
 
+	return $return;
+}
+
+/**
+ * Add confirm invite page to public pages
+ * 
+ * @param string $hook   "public_pages"
+ * @param string $type   "walled_garden"
+ * @param array  $return Public pages
+ * @param array  $params Hook params
+ * @return array
+ */
+function events_rsvp_public_pages($hook, $type, $return, $params) {
+	$return[] = "events/confirm_invite";
 	return $return;
 }
