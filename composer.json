@@ -17,8 +17,8 @@
 	"require": {
 		"php": ">=5.5",
 		"composer/installers": "~1.0",
-		"hypejunction/elgg_tokeninput": "~4.0",
-		"hypejunction/forms_api": "~1.0",
+		"arckinteractive/events_api": "*",
+		"arckinteractive/events_ui": "*",
 		"hypejunction/access_grant": "~1.0",
 		"hypejunction/ui_tabs": "~1.0"
 	}

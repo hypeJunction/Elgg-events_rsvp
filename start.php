@@ -3,20 +3,14 @@
 use Events\API\Event;
 
 /**
- * Images
+ * RSVPs for Events Framework
  *
  * @author Ismayil Khayredinov <info@hypejunction.com>
- * @copyright Copyright (c) 2015, Ismayil Khayredinov
+ * @copyright Copyright (c) 2015-2016, Ismayil Khayredinov
  */
 require_once __DIR__ . '/autoloader.php';
 
-elgg_register_event_handler('init', 'system', 'events_rsvp_init');
-
-/**
- * Initialize the plugin
- * @return void
- */
-function events_rsvp_init() {
+elgg_register_event_handler('init', 'system', function() {
 
 	elgg_register_action('events/rsvp', __DIR__ . '/actions/events/rsvp.php');
 	elgg_register_action('events/rsvp_remove', __DIR__ . '/actions/events/rsvp_remove.php');
@@ -35,7 +29,7 @@ function events_rsvp_init() {
 	elgg_register_plugin_hook_handler('route', 'calendar', 'events_rsvp_invite_page_handler');
 
 	elgg_extend_view('elgg.css', 'events/rsvp.css');
-}
+});
 
 /**
  * Get RSVP options
