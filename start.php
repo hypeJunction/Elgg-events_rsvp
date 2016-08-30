@@ -28,7 +28,7 @@ elgg_register_event_handler('init', 'system', function() {
 
 	elgg_register_plugin_hook_handler('route', 'calendar', 'events_rsvp_invite_page_handler');
 	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'events_rsvp_public_pages');
-	
+
 	elgg_extend_view('elgg.css', 'events/rsvp.css');
 });
 
@@ -109,19 +109,19 @@ function events_rsvp_prepare_profile_buttons($hook, $type, $return, $params) {
 		$select .= elgg_format_element('script', [], "require(['events/rsvp']);");
 
 		$return[] = ElggMenuItem::factory(array(
-					'name' => 'rsvp',
-					'text' => $select,
-					'href' => false,
-					'priority' => 50,
+			'name' => 'rsvp',
+			'text' => $select,
+			'href' => false,
+			'priority' => 50,
 		));
 	}
 
 	if (events_rsvp_can_invite($event, $user)) {
 		$return[] = ElggMenuItem::factory(array(
-					'name' => 'invite',
-					'text' => elgg_echo('events:rsvp:invite'),
-					'href' => "/calendar/events/invite/$event->guid",
-					'link_class' => 'elgg-button elgg-button-action',
+			'name' => 'invite',
+			'text' => elgg_echo('events:rsvp:invite'),
+			'href' => "/calendar/events/invite/$event->guid",
+			'link_class' => 'elgg-button elgg-button-action',
 		));
 	}
 
@@ -282,29 +282,29 @@ function events_rsvp_setup_event_user_menu($hook, $type, $return, $params) {
 
 	if (events_rsvp_user_status($event, $user)) {
 		$return[] = ElggMenuItem::factory(array(
-					'name' => 'rsvp:remove',
-					'text' => elgg_echo('events:rsvp:remove'),
-					'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/rsvp_remove'), array(
-						'user_guid' => $user->guid,
-						'event_guid' => $event->guid,
-					)),
-					'confirm' => elgg_echo('events:rsvp:remove:confirm'),
-					'link_class' => 'elgg-button elgg-button-delete',
-					'item_class' => 'elgg-menu-item-delete',
+			'name' => 'rsvp:remove',
+			'text' => elgg_echo('events:rsvp:remove'),
+			'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/rsvp_remove'), array(
+				'user_guid' => $user->guid,
+				'event_guid' => $event->guid,
+			)),
+			'confirm' => elgg_echo('events:rsvp:remove:confirm'),
+			'link_class' => 'elgg-button elgg-button-delete',
+			'item_class' => 'elgg-menu-item-delete',
 		));
 	}
 
 	if (check_entity_relationship($event->guid, 'invited', $user->guid)) {
 		$return[] = ElggMenuItem::factory(array(
-					'name' => 'rsvp:uninvite',
-					'text' => elgg_echo('events:rsvp:uninvite'),
-					'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/uninvite'), array(
-						'user_guid' => $user->guid,
-						'event_guid' => $event->guid,
-					)),
-					'confirm' => elgg_echo('events:rsvp:uninvite:confirm'),
-					'link_class' => 'elgg-button elgg-button-delete',
-					'item_class' => 'elgg-menu-item-delete',
+			'name' => 'rsvp:uninvite',
+			'text' => elgg_echo('events:rsvp:uninvite'),
+			'href' => elgg_http_add_url_query_elements(elgg_normalize_url('/action/events/uninvite'), array(
+				'user_guid' => $user->guid,
+				'event_guid' => $event->guid,
+			)),
+			'confirm' => elgg_echo('events:rsvp:uninvite:confirm'),
+			'link_class' => 'elgg-button elgg-button-delete',
+			'item_class' => 'elgg-menu-item-delete',
 		));
 	}
 

@@ -56,5 +56,6 @@ return [
 	'events:rsvp:confirm:invalid' => 'The URL of the page you are trying to reach is invalid or has expired',
 	'events:rsvp:confirm:title' => 'Thank you',
 	'events:rsvp:confirm' => 'Your attendance at %s has been confirmed. You can change your RSVP status at any time by visiting the event page',
-	
+
+	'events:rvsp:list' => 'Guest list',
 ];

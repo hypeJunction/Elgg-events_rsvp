@@ -1,7 +1,7 @@
 <?php
 
 $full_view = elgg_extract('full_view', $vars, false);
-if (!$full_view) {
+if (!$full_view || elgg_is_xhr()) {
 	return;
 }
 
