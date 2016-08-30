@@ -20,7 +20,8 @@
 		"arckinteractive/events_api": "*",
 		"arckinteractive/events_ui": "*",
 		"hypejunction/access_grant": "~1.0",
-		"hypejunction/ui_tabs": "~1.0"
+		"hypejunction/ui_tabs": "~1.0",
+		"hypejunction/elgg_tokeninput": "*"
 	}
 }
 

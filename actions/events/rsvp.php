@@ -39,7 +39,8 @@ system_message(elgg_echo('events:rsvp:success'));
 if (!empty($relationships)) {
 	$relationships_in = implode(',', $relationships);
 	$dbprefix = elgg_get_config('dbprefix');
-	$query = "DELETE FROM {$dbprefix}entity_relationships WHERE guid_one = {$user->guid} AND guid_two = {$event->guid} AND relationship IN ({$relationships_in})";
+	$query = "DELETE FROM {$dbprefix}entity_relationships
+		WHERE guid_one = {$user->guid} AND guid_two = {$event->guid} AND relationship IN ({$relationships_in})";
 	delete_data($query);
 }
 
