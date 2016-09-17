@@ -15,7 +15,7 @@ foreach ($rsvp_options as $option) {
 	$counter = elgg_get_entities_from_relationship([
 		'relationship' => $option,
 		'relationship_guid' => $entity->guid,
-		'inverse_relationship' => false,
+		'inverse_relationship' => true,
 		'count' => true,
 	]);
 	
