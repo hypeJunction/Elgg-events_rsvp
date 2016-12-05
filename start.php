@@ -193,27 +193,29 @@ function events_rsvp_can_rsvp(Event $event, ElggUser $user = null) {
  * @return bool
  */
 function events_rsvp_can_invite(Event $event, ElggUser $user = null) {
+
 	if (!isset($user)) {
 		$user = elgg_get_logged_in_user_entity();
 	}
+
 	if (!$user instanceof ElggUser) {
 		return false;
 	}
 
-	switch ($event->allowed_invites) {
+	if ($user->isAdmin() || $event->owner_guid == $user->guid) {
+		$permission = true;
+	}
 
-		default :
-		case 'private' :
-			$permission = $event->owner_guid == $user->guid;
-			break;
+	if (!$permission) {
+		switch ($event->allowed_invites) {
+			case 'public' :
+				$permission = true;
+				break;
 
-		case 'public' :
-			$permission = true;
-			break;
-
-		case 'attendees' :
-			$permission = (check_entity_relationship($user->guid, 'attending', $event->guid));
-			break;
+			case 'attendees' :
+				$permission = (check_entity_relationship($user->guid, 'attending', $event->guid));
+				break;
+		}
 	}
 
 	$params = array(
