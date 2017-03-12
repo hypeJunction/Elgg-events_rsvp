@@ -49,6 +49,8 @@ if ($rsvp == 'not_attending') {
 	if ($event->owner_guid != $user->guid) {
 		$calendar->removeEvent($event);
 	}
+	forward($calendar->getURL());
 } else {
 	$calendar->addEvent($event);
+	forward($event->getURL());
 }
